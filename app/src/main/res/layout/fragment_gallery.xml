@@ -44,7 +44,8 @@
         android:text="Open Camera"
         android:id="@+id/button"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="77dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -53,5 +54,14 @@
         android:id="@+id/button3"
         android:layout_above="@+id/button"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/textView"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="43dp" />
 
 </RelativeLayout>

@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aw.picargo.login_helper.SQLiteHandler;
@@ -71,7 +72,7 @@ public class GalleryActivityFragment extends Fragment {
     private String filePath = null;
     private SQLiteHandler db;
     private SessionManager session;
-    private String email = null;
+    private String email;
 
     private static final String TAG = GalleryActivity.class.getSimpleName();
     private static final String STATE_IMAGES = "state images";
@@ -90,11 +91,14 @@ public class GalleryActivityFragment extends Fragment {
         layout = (RelativeLayout) inflater.inflate(R.layout.fragment_gallery, container, false);
         Button takePhoto = (Button) layout.findViewById(R.id.button);
         Button logout = (Button) layout.findViewById(R.id.button3);
+        TextView userText = (TextView) layout.findViewById(R.id.textView);
 
         db = new SQLiteHandler(getActivity().getApplicationContext());
         HashMap<String, String> user = db.getUserDetails();
         email = user.get("email");
         session = new SessionManager(getActivity().getApplicationContext());
+
+        userText.setText(email);
         if (!session.isLoggedIn()) {
             logoutUser();
         }
@@ -255,7 +259,7 @@ public class GalleryActivityFragment extends Fragment {
     }
 
     private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
-        ProgressDialog progressDialog = new ProgressDialog(getActivity(), ProgressDialog.STYLE_HORIZONTAL);
+        ProgressDialog progressDialog = new ProgressDialog(getActivity(), ProgressDialog.STYLE_SPINNER);
         @Override
         protected void onPreExecute() {
             progressDialog.setProgress(0);
@@ -269,9 +273,6 @@ public class GalleryActivityFragment extends Fragment {
             progressDialog.setTitle("Uploading");
             progressDialog.setProgress(progress[0]);
             progressDialog.setMessage(String.valueOf(progress[0]) + "%");
-            //progressBar.setVisibility(View.VISIBLE);
-            //progressBar.setProgress(progress[0]);
-            //txtPercentage.setText(String.valueOf(progress[0]) + "%");
         }
 
         @Override
@@ -301,11 +302,6 @@ public class GalleryActivityFragment extends Fragment {
                 // Adding file data to http body
                 entity.addPart("image", new FileBody(sourceFile));
                 entity.addPart("email", new StringBody(email));
-
-                // Extra parameters if you want to pass to server
-                //entity.addPart("website",
-                        //new StringBody("www.androidhive.info"));
-                //entity.addPart("email", new StringBody("abc@gmail.com"));
 
                 totalSize = entity.getContentLength();
                 httppost.setEntity(entity);

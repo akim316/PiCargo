@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.aw.picargo.login.LoginConfig;
 import com.aw.picargo.login.LoginController;
+import com.aw.picargo.login_helper.SQLiteHandler;
 import com.aw.picargo.login_helper.SessionManager;
 
 public class LoginActivity extends Activity {
@@ -34,6 +35,7 @@ public class LoginActivity extends Activity {
     private EditText inputPassword;
     private ProgressDialog pDialog;
     private SessionManager session;
+    private SQLiteHandler db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,8 @@ public class LoginActivity extends Activity {
 
         // Session manager
         session = new SessionManager(getApplicationContext());
+
+        db = new SQLiteHandler(getApplicationContext());
 
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
@@ -121,12 +125,20 @@ public class LoginActivity extends Activity {
                         // user successfully logged in
                         // Create login session
                         session.setLogin(true);
+                        String uid = jObj.getString("uid");
+
+                        JSONObject user = jObj.getJSONObject("user");
+                        String name = user.getString("name");
+                        String email = user.getString("email");
+                        String created_at = user
+                                .getString("created_at");
+                        db.deleteUsers();
+                        // Inserting row in users table
+                        db.addUser(name, email, uid, created_at);
 
                         // Launch main activity
                         Intent intent = new Intent(LoginActivity.this,
                                 GalleryActivity.class);
-                        intent.putExtra("email", email);
-                        setResult(3232);
                         startActivity(intent);
                         finish();
                     } else {
@@ -158,7 +170,6 @@ public class LoginActivity extends Activity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "login");
                 params.put("email", email);
-                Log.d("lol", email);
                 params.put("password", password);
 
                 return params;

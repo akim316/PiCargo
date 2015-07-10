@@ -129,7 +129,6 @@ public class RegisterActivity extends Activity {
                         String email = user.getString("email");
                         String created_at = user
                                 .getString("created_at");
-
                         // Inserting row in users table
                         db.addUser(name, email, uid, created_at);
 
