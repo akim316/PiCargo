@@ -39,6 +39,7 @@ public class RegisterActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_register);
 
         inputFullName = (EditText) findViewById(R.id.name);

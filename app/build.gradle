@@ -43,4 +43,7 @@ dependencies {
     compile ('org.apache.httpcomponents:httpcore:4.4.1') {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'commons-io:commons-io:2.4'
+
 }

@@ -9,6 +9,11 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 
 @SuppressWarnings("deprecation")
+/**
+ * Extension of the MultipartEntity class located in the Apache HTTP mime package
+ * More info: http://hc.apache.org/httpcomponents-client-ga/httpmime/apidocs/org/apache/http/entity/mime/MultipartEntity.html
+ * Only functional difference it has a ProgressListener for keeping track of how much of the entity has been uploaded
+ */
 public class AndroidMultipartEntity extends MultipartEntity
 
 {
@@ -18,6 +23,11 @@ public class AndroidMultipartEntity extends MultipartEntity
     public AndroidMultipartEntity(final ProgressListener listener) {
         super();
         this.listener = listener;
+    }
+
+    public AndroidMultipartEntity() {
+        super();
+        this.listener = null;
     }
 
     public AndroidMultipartEntity(final HttpMultipartMode mode,
